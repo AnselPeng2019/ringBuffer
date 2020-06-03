@@ -2,7 +2,7 @@
 #include "stdint.h"
 #include "CRC16.h"
 
-#define RINGBUFFSIZE 100
+#define RINGBUFFSIZE 10
 
 typedef struct {
     uint8_t head;
@@ -19,11 +19,12 @@ ringBuffer_t ringBuff = {
 int isBuffFull(void);
 int WriteBuff(uint8_t);
 int readBuff(uint8_t*);
+void testRingBuff(void);
 
 int main()
 {
-    printf("ringBuffer Test.\n");
-    
+    printf("ringBuffer Test.\n\n");
+    testRingBuff();
     return 1;
 }
 
@@ -59,4 +60,16 @@ int readBuff(uint8_t *pdata)
     ringBuff.head = (ringBuff.head + 1) % RINGBUFFSIZE;
     ringBuff.length--;
     return 1;
+}
+
+void testRingBuff()
+{
+    for(int i=0;i<15;i++){
+        if(WriteBuff(i)<0){
+            printf("缓冲区已满！\n");
+            break;
+        }else{
+            printf("写入数据：%2d - tail[%2d].\n", i, ringBuff.tail);
+        }
+    }
 }
