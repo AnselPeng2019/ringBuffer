@@ -90,12 +90,11 @@ void parseBDprotocol()//解析半岛的通讯协议
                         readBuff(&pdata[i]);
                     }
                     //执行for循环后，i=12
-                    i--;
                     //将完整的指令转存到了数组pdata中，进行协议解析，CRC16校验
-                    uint16_t crc = CRC16(pdata, i-2);
+                    uint16_t crc = CRC16(pdata, len-3);
                     uint8_t c_h8 = crc >> 8;
                     uint8_t c_l8 = crc & 0xff;
-                    for(int j=0;j<=i;j++){
+                    for(int j=0;j<len;j++){
                         printf("pdata[%02d] = 0x%02x \n", j, pdata[j]);
                     }
                     printf("H8 = 0x%02x, L8 = 0x%02x \n", c_h8, c_l8);
